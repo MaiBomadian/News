@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:news_app/core/config/constants.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
+   final Function onDrawerTapped;
+  const CustomDrawer({Key? key,  required this.onDrawerTapped}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,9 @@ class CustomDrawer extends StatelessWidget {
           ),
           const SizedBox(height: 25,),
           InkWell(
+            onTap: (){
+              onDrawerTapped();
+            },
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -33,7 +37,6 @@ class CustomDrawer extends StatelessWidget {
                     size: 40,
                   ),
                   const SizedBox(width: 8,),
-
                   Text(
                     'Categories',
                     style: Constants.theme.textTheme.titleLarge?.copyWith(

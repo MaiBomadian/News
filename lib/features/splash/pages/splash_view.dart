@@ -26,9 +26,8 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-
     return CustomBackgroundWidget(
-        child: Image.asset('assets/images/logo.png'),
+      child: Image.asset('assets/images/logo.png'),
     );
   }
 }
