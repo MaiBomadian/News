@@ -8,13 +8,13 @@ class CategoryItemWidget extends StatelessWidget {
   final int index;
   final CategoryModel categoryModel;
   final OnCategoryClicked onCategoryClicked;
+
   const CategoryItemWidget(
       {Key? key,
       required this.index,
       required this.categoryModel,
       this.onCategoryClicked})
       : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {

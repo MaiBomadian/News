@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/widgets/articles_list_widget.dart';
 import 'package:news_app/core/widgets/tab_item_widget.dart';
 
 import '../../models/source_model.dart';
@@ -40,9 +41,9 @@ class _NewsListWidgetState extends State<NewsListWidget> {
                             selectedIndex == widget.sourcesList.indexOf(e),
                       ),
                     )
-                    .toList()))
+                    .toList())),
+         ArticlesListWidget(sourceId: widget.sourcesList[selectedIndex].id,),
       ],
     );
-    ;
   }
 }
