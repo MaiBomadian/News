@@ -7,6 +7,8 @@ import 'package:news_app/main.dart';
 
 import '../../../models/category_model.dart';
 import 'category_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+
   final List<CategoryModel> categoriesList = [
     CategoryModel(
       id: 'Sports',
@@ -55,11 +58,14 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    var locale = AppLocalizations.of(navigatorKey.currentState!.context)!;
+
+
     return CustomBackgroundWidget(
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            selectCategory == null ? 'News App' : selectCategory!.title,
+            selectCategory == null ?locale.news : selectCategory!.title,
             style: Constants.theme.textTheme.titleLarge,
           ),
         ),

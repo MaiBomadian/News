@@ -55,6 +55,7 @@ class ApiManager {
       }
       return articles;
     } else {
+
       throw Exception('Error fetching data articles');
     }
   }
