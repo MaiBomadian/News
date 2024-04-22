@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/widgets/custom_background_widget.dart';
 import 'package:news_app/core/widgets/news_list_widget.dart';
-import 'package:news_app/features/home/viewModel/category_view_model.dart';
 import 'package:news_app/models/category_model.dart';
-import 'package:news_app/network/api_manager.dart';
-import 'package:provider/provider.dart';
+
+import '../viewModel/cubits/category_cubit/category_cubit.dart';
+import '../viewModel/cubits/category_cubit/category_states.dart';
 
 class CategoryView extends StatefulWidget {
   final CategoryModel categoryModel;
@@ -16,29 +17,58 @@ class CategoryView extends StatefulWidget {
 }
 
 class _CategoryViewState extends State<CategoryView> {
-  var viewModel = CategoryViewModel();
+  var cubitViewModel = CategoryCubit();
 
   @override
   void initState() {
     super.initState();
-    viewModel.getDataSource(widget.categoryModel);
+    cubitViewModel.getDataSource(widget.categoryModel);
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<CategoryViewModel>(
-      create: (BuildContext context) => viewModel,
-      child: Consumer<CategoryViewModel>(builder: (context, viewModel, child) {
-        if (viewModel.sourcesList.isEmpty) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        return CustomBackgroundWidget(
-          child: NewsListWidget(sourcesList: viewModel.sourcesList),
-        );
-      }),
-    );
+    return BlocBuilder<CategoryCubit, CategoryStates>(
+        bloc: cubitViewModel,
+        builder: (context, state) {
+          switch (state) {
+            case SuccessCategoryState():
+              {
+                var sourcesList = state.sourcesList;
+                return CustomBackgroundWidget(
+                  child: NewsListWidget(sourcesList: sourcesList),
+                );
+              }
+            case LoadingCategoryState():
+              {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            case FailureCategoryState():
+              {
+                return Text(
+                  state.errorMessage.toString(),
+                );
+                //   const Center(
+                //   child: Text('Something went wrong'),
+                // );
+              }
+          }
+        });
+
+    //   ChangeNotifierProvider<CategoryViewModel>(
+    //   create: (BuildContext context) => viewModel,
+    //   child: Consumer<CategoryViewModel>(builder: (context, viewModel, child) {
+    //     if (viewModel.sourcesList.isEmpty) {
+    //       return const Center(
+    //         child: CircularProgressIndicator(),
+    //       );
+    //     }
+    //     return CustomBackgroundWidget(
+    //       child: NewsListWidget(sourcesList: viewModel.sourcesList),
+    //     );
+    //   }),
+    // );
 
     // FutureBuilder(
     //     future: ApiManager.fetchDataSources(categoryModel),
